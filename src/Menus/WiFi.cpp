@@ -5,7 +5,7 @@
 #include <Utils/Credentials.h>
 
 class WifiMenu : public Menu {
-    const char* colors[5] = {"Connect", "Ping", "None", "None", "Back"};
+    const char* colors[5] = {"Connect", "Ping", "Get Time", "None", "Back"};
     int16_t selectedValue = 0;
     bool pressed = false;
 
@@ -85,7 +85,8 @@ class WifiMenu : public Menu {
                 return -1;
                 case 1:
                 return 2;
-                case 2:
+                case 2: // get time
+                
                 return -1;
                 case 3:
                 return -1;

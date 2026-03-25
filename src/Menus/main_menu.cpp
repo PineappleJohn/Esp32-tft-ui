@@ -7,7 +7,7 @@
 
 class MainMenu : public Menu
 {
-    const char* colors[ITEMS] = {"WiFi", "TestB", "TestC", "TestD", "TestE", "TestF", "TestG", "TestH", "TestI", "TestJ", "TestK", "TestL"};
+    const char* colors[ITEMS] = {"WiFi", "BLE", "WiFi Maruader", "TestD", "TestE", "TestF", "TestG", "TestH", "TestI", "TestJ", "TestK", "TestL"};
     int16_t selectedValue = 0;
     bool pressed = false;
 
