@@ -1,16 +1,29 @@
 #include <Menus/menu.h>
+#include <WiFi.h>
+#include <WiFiUdp.h>
+#include <NTPClient.h>
 
 class TimeMenu : public Menu {
     bool returnToWifiScreen = false;
+
+    WiFiUDP ntpUdp;
+    NTPClient client = NTPClient(ntpUdp);
 
     void start(TFT_eSPI* tft) override {
         tft->fillScreen(TFT_BLACK);
 
         tft->drawString("Retrieving time...", 0, 0);
         try {
+
+            client.begin();
+            client.setTimeOffset(-18000);
+
+            String formattedDate = client.getFormattedDate();
+            int splitT = formattedDate.indexOf("T");
+            String timestamp = formattedDate.substring(splitT+1, formattedDate.length()-1);
             
             tft->fillScreen(TFT_BLACK);
-            tft->drawString("It is ", 0, 0);
+            tft->drawString("It is " + timestamp, 0, 0);
 
             delay(2000);
 
