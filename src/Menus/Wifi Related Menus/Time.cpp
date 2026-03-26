@@ -7,7 +7,7 @@ class TimeMenu : public Menu {
     bool returnToWifiScreen = false;
 
     WiFiUDP ntpUdp;
-    NTPClient client = NTPClient(ntpUdp);
+    NTPClient client = NTPClient(ntpUdp, "pool.ntp.org");
 
     void start(TFT_eSPI* tft) override {
         tft->fillScreen(TFT_BLACK);

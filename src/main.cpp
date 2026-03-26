@@ -2,7 +2,7 @@
 
 #define TOUCH_SCREEN_COMPATIBLE
 
-#define MENU_LENGTH 3
+#define MENU_LENGTH 4
 
 
 #include <Arduino.h>
@@ -11,6 +11,7 @@
 #include <Menus/main_menu.cpp>
 #include <Menus/WiFi.cpp>
 #include <Menus/Wifi Related Menus/Ping.cpp>
+#include <Menus/Wifi Related Menus/Time.cpp>
 #include <Utils/Constants.h>
 
 #ifdef TOUCH_SCREEN_COMPATIBLE
@@ -35,7 +36,8 @@ bool wasPressingScreenLastFrame = false;
 Menu* menus[MENU_LENGTH] = {
   new MainMenu(),
   new WifiMenu(),
-  new PingMenu()
+  new PingMenu(),
+  new TimeMenu()
 };
 
 int loadedMenu = 0;

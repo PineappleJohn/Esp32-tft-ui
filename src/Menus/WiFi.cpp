@@ -87,7 +87,7 @@ class WifiMenu : public Menu {
                 return 2;
                 case 2: // get time
                 
-                return -1;
+                return 3;
                 case 3:
                 return -1;
                 case 4:
