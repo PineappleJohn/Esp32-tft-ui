@@ -1,11 +1,16 @@
 #include <Menus/menu.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include <Utils/Constants.h>
+#include "LittleFS.h"
+#include "iostream"
 
-class SettingsMenu : public Menu {
-    const char* colors[5] = {"Check for updates", "", "", "", "Back"};
+class SettingsMenu : public Menu
+{
+    const char *colors[5] = {"Raise brightness", "Lower brightness", "", "Developer mode", "Back"};
     int16_t selectedValue = 0;
     bool pressed = false;
+    String version = "";
 
     void render(TFT_eSPI *tft)
     {
@@ -37,6 +42,7 @@ class SettingsMenu : public Menu {
                 }
                 tft->drawString(colors[i], 15, 40 + (15 * i));
             }
+
         }
         catch (...)
         {
@@ -53,29 +59,32 @@ class SettingsMenu : public Menu {
     {
         uint16_t x, y;
 
-        if (tft->getTouch(&x, &y)) {
+        if (tft->getTouch(&x, &y))
+        {
             pressed = true;
-            //printf("Y: %d\n", (abs(x - 320) - 60) / 15);
             selectedValue = (abs(x - 320) - 60) / 20;
             render(tft);
-        } else if (!tft->getTouch(&x, &y) && pressed) {
-            //printf("SV: %d", selectedValue);
+        }
+        else if (!tft->getTouch(&x, &y) && pressed)
+        {
             pressed = false;
-            switch (selectedValue) {
-                case 0:
-                
+            switch (selectedValue)
+            {
+            case 0:
                 return -1;
-                case 4:
+            case 3:
+                debugMode = !debugMode;
+                return -1;
+            case 4:
                 return 1;
             }
-
-            
         }
 
         return -1;
     }
 
-    int onEvent(TFT_eSPI *tft, Event event) override {
+    int onEvent(TFT_eSPI *tft, Event event) override
+    {
         return -1;
     }
 };

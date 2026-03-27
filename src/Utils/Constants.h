@@ -8,6 +8,8 @@
 #define ENCODER_A    0
 #define ENCODER_B    0
 
-#define UPDATE_URL ""
+#define UPDATE_URL "https://github.com/PineappleJohn/Esp32-tft-ui/raw/refs/heads/main/Public-version.txt"
+
+extern bool debugMode = false;
 
 //#endif.
