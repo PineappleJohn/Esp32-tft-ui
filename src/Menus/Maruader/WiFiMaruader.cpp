@@ -1,15 +1,11 @@
 #include <Menus/menu.h>
-#include <iostream>
-#include <string>
-#include <cstdio>
 
-#define ITEMS 12
-
-class MainMenu : public Menu
-{
-    const char* colors[ITEMS] = {"WiFi", "BLE", "WiFi Maruader", "TestD", "TestE", "TestF", "TestG", "TestH", "TestI", "TestJ", "TestK", "TestL"};
+class MaruaderMenu : public Menu {
+    const char* colors[3] = {"Test", "None", "Back"};
     int16_t selectedValue = 0;
     bool pressed = false;
+
+    HardwareSerial uartConnection = HardwareSerial(2); // TODO: Test 0-2 
 
     void render(TFT_eSPI *tft)
     {
@@ -18,20 +14,20 @@ class MainMenu : public Menu
             tft->setTextColor(TFT_WHITE, TFT_BLACK);
             tft->fillScreen(TFT_BLACK);
             tft->setTextFont(2);
-            tft->drawString("Main Menu", 130, 2);
+            tft->drawString("UART Communication", 130, 2);
 
             tft->drawLine(15, 25, 305, 25, TFT_WHITE);
 
-            if (selectedValue >= ITEMS)
+            if (selectedValue >= 1)
             {
                 selectedValue = 0;
             }
             else if (selectedValue < 0)
             {
-                selectedValue = ITEMS;
+                selectedValue = 3;
             }
 
-            for (size_t i = 0; i < ITEMS; i++)
+            for (size_t i = 0; i < 3; i++)
             {
                 if (i == selectedValue)
                     tft->setTextColor(TFT_BLACK, TFT_WHITE);
@@ -51,6 +47,8 @@ class MainMenu : public Menu
     void start(TFT_eSPI *tft) override
     {
         render(tft);
+
+        uartConnection.begin(115200, SERIAL_8N1, 16, 17);
     }
 
     int update(TFT_eSPI *tft) override
@@ -67,40 +65,27 @@ class MainMenu : public Menu
             pressed = false;
             switch (selectedValue) {
                 case 0:
-                return 1;
+                uartConnection.println("what is happening"); // Its not  working
+                return -1;
                 case 2:
-                return 4;
+                return 1;
             }
 
             
         }
 
+        if (uartConnection.available()) 
+        {
+            String data = uartConnection.readString();//Until('\n');
+            printf("Received: %s\n", data.c_str());
+            render(tft);
+            tft->drawString(data, 15, 150);
+        }
+
         return -1;
     }
 
-    int onEvent(TFT_eSPI *tft, Event event) override {
-        switch (event)
-        {
-            case RotaryRight:
-                selectedValue++;
-                return -1;
-            case RotaryLeft:
-                selectedValue--;
-                return -1;
-            case TouchRelease:
-            case RotaryClick:
-                render(tft);
-
-                if (colors[selectedValue]) // C++ doesn't techincally support strings in switch statements to if/else it is
-                {
-                    if (colors[selectedValue] == colors[0]) {
-                        return 1;
-                    }
-                }
-
-                return -1;
-            default:
-                return -1;
-        }
+    int onEvent(TFT_eSPI* tft, Event event) override {
+        return -1;
     }
 };

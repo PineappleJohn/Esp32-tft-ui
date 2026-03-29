@@ -2,7 +2,7 @@
 
 #define TOUCH_SCREEN_COMPATIBLE
 
-#define MENU_LENGTH 4
+#define MENU_LENGTH 5
 
 
 #include <Arduino.h>
@@ -12,6 +12,7 @@
 #include <Menus/WiFi.cpp>
 #include <Menus/Wifi Related Menus/Ping.cpp>
 #include <Menus/Wifi Related Menus/Time.cpp>
+#include <Menus/Maruader/WifiMaruader.cpp>
 #include <Utils/Constants.h>
 
 #ifdef TOUCH_SCREEN_COMPATIBLE
@@ -37,7 +38,8 @@ Menu* menus[MENU_LENGTH] = {
   new MainMenu(),
   new WifiMenu(),
   new PingMenu(),
-  new TimeMenu()
+  new TimeMenu(),
+  new MaruaderMenu()
 };
 
 int loadedMenu = 0;
